@@ -1,10 +1,14 @@
 package com.group4.incidentmanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.Set;
 
 @Entity
@@ -18,6 +22,11 @@ public class Department {
     private Integer deptId;
     private String deptName;
 
-    @OneToMany(mappedBy = "department" )
+    @JsonBackReference
+    @OneToMany(
+            mappedBy = "department",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<User> users;
 }

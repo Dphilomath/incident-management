@@ -5,22 +5,23 @@ import com.group4.incidentmanagement.service.IncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+@RestController()
 public class IncidentController {
     @Autowired
     private IncidentService incidentService;
 
-    @GetMapping("/")
-    String[] getAllIncidents() {
-        return new String[]{"Check", "Point"};
+    @GetMapping("/getallincidents")
+    List<Incident> getAllIncidents() {
+        return incidentService.getAllIncidents();
     }
 
 
     //Create or save or add
-    //http://localhost:8080/addstudent
+    //http://localhost:8080/addincident
     @PostMapping("/addincident")
-    public Incident createIncident(@RequestBody Incident incident)
-    {
+    public Incident createIncident(@RequestBody Incident incident) {
         return incidentService.saveIncident(incident);
     }
 

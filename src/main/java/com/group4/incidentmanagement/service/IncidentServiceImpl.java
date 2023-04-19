@@ -1,7 +1,9 @@
 package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.dao.IncidentRepository;
+import com.group4.incidentmanagement.dao.UserRepository;
 import com.group4.incidentmanagement.entities.Incident;
+import com.group4.incidentmanagement.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +17,17 @@ public class IncidentServiceImpl implements IncidentService {
 
     @Autowired
     private IncidentRepository incidentRepo;
+    @Autowired
+    private UserRepository userRepo;
+
     @Override
     public Incident saveIncident(Incident incident) {
-        System.out.println(incident);
+
+        User foundUser = userRepo.findUserByUserNameAndDepartment(incident.getUser().getUserName(), incident.getUser().getDepartment());
+        System.out.println(foundUser);
+        if (foundUser != null) {
+            incident.setUser(foundUser);
+        }
         return incidentRepo.save(incident);
     }
 

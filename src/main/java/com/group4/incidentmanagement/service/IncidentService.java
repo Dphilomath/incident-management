@@ -4,7 +4,7 @@ import com.group4.incidentmanagement.entities.Incident;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
+
 public interface IncidentService {
     //C - Create or Insert
     public Incident saveIncident(Incident incident);
