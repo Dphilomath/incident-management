@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,14 +20,18 @@ import java.util.Set;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "dept_id")
     private Integer deptId;
     private String deptName;
 
+
+    //dept is not being saved
     @JsonBackReference
     @OneToMany(
             mappedBy = "department",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<User> users;
+
+    private List<User> users;
 }

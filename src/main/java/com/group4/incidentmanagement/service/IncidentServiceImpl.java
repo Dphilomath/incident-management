@@ -4,6 +4,7 @@ import com.group4.incidentmanagement.dao.IncidentRepository;
 import com.group4.incidentmanagement.dao.UserRepository;
 import com.group4.incidentmanagement.entities.Incident;
 import com.group4.incidentmanagement.entities.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class IncidentServiceImpl implements IncidentService {
 
     @Autowired
