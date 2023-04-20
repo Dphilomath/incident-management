@@ -28,8 +28,9 @@ public class User {
     private List<Incident> incidents;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dept_id")
     private Department department;
+
 
 }

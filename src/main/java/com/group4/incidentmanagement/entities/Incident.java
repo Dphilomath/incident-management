@@ -13,10 +13,11 @@ import org.springframework.stereotype.Component;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString
+@Table(name = "incident_details")
 public class Incident {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "incidet_id")
     private Integer id;
     private String name;
     private String description;

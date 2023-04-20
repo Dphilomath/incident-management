@@ -1,11 +1,15 @@
 package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.dao.UserRepository;
+import com.group4.incidentmanagement.entities.Department;
 import com.group4.incidentmanagement.entities.User;
+import com.group4.incidentmanagement.service.util.IterableToList;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,5 +39,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer userId) {
         userRepo.deleteById(userId);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Iterable<User> users = userRepo.findAll();
+        return new ArrayList<>(IterableToList.makeCollection(users));
     }
 }

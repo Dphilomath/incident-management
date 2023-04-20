@@ -6,14 +6,16 @@ import com.group4.incidentmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
-    String[] getAllUsers() {
-        return new String[]{"Check", "Point"};
+    @GetMapping("/getallusers")
+    List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
 
@@ -31,4 +33,6 @@ public class UserController {
     public User retrieveUser(@PathVariable("id") Integer userId) {
         return userService.retrieveUser(userId);
     }
+
+
 }

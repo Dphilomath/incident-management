@@ -1,6 +1,9 @@
 package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.entities.Department;
+import com.group4.incidentmanagement.entities.Incident;
+
+import java.util.List;
 
 public interface DepartmentService {
 
@@ -16,4 +19,5 @@ public interface DepartmentService {
     //Delete
     public void deleteDepartment(Integer studentId);
 
+    List<Department> getAllDepartments();
 }

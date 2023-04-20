@@ -2,10 +2,14 @@ package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.dao.DepartmentRepository;
 import com.group4.incidentmanagement.entities.Department;
+import com.group4.incidentmanagement.service.util.IterableToList;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +41,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void deleteDepartment(Integer deptId) {
         deptRepo.deleteById(deptId);
 
+    }
+
+    @Override
+    public List<Department> getAllDepartments() {
+        Iterable<Department> depts = deptRepo.findAll();
+        return new ArrayList<>(IterableToList.makeCollection(depts));
     }
 }

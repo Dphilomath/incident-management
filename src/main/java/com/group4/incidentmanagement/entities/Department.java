@@ -17,6 +17,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "dept_details")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +33,5 @@ public class Department {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-
     private List<User> users;
 }
