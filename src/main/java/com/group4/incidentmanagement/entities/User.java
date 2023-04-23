@@ -29,7 +29,12 @@ public class User {
 
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dept_id")
+    @JoinTable(
+            name="user_dept",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="dept_id")
+    )
+//    @JoinColumn(name = "dept_id")
     private Department department;
 
 

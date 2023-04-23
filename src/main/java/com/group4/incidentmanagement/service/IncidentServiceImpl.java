@@ -5,6 +5,7 @@ import com.group4.incidentmanagement.dao.UserRepository;
 import com.group4.incidentmanagement.entities.Incident;
 import com.group4.incidentmanagement.entities.User;
 import jakarta.transaction.Transactional;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +18,21 @@ import java.util.Optional;
 @Transactional
 public class IncidentServiceImpl implements IncidentService {
 
-    @Autowired
     private IncidentRepository incidentRepo;
-    @Autowired
+
     private UserRepository userRepo;
 
+    //constructor injection
+    public IncidentServiceImpl(@Autowired UserRepository userRepo, @Autowired IncidentRepository incidentRepo) {
+        this.userRepo = userRepo;
+        this.incidentRepo = incidentRepo;
+    }
+
     @Override
-    public Incident saveIncident(Incident incident) {
+    public Incident saveIncident(@NotNull Incident incident) {
 
         User foundUser = userRepo.findUserByUserNameAndDepartment(incident.getUser().getUserName(), incident.getUser().getDepartment());
-        System.out.println(foundUser);
+
         if (foundUser != null) {
             incident.setUser(foundUser);
         }
@@ -50,9 +56,7 @@ public class IncidentServiceImpl implements IncidentService {
     @Override
     public Incident getIncidentById(Integer incidentId){
         Optional<Incident> incident = incidentRepo.findById(incidentId);
-        if(incident.isPresent())
-            return incident.get();
-        else return null;
+        return incident.orElse(null);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class IncidentServiceImpl implements IncidentService {
     }
 
     public static <E> Collection<E> makeCollection(Iterable<E> iter) {
-        Collection<E> list = new ArrayList<E>();
+        Collection<E> list = new ArrayList<>();
         for (E item : iter) {
             list.add(item);
         }

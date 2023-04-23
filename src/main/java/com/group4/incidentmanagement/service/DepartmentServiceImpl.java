@@ -15,8 +15,11 @@ import java.util.Optional;
 @Service
 @Transactional
 public class DepartmentServiceImpl implements DepartmentService {
-    @Autowired
-    private DepartmentRepository deptRepo;
+
+    private final DepartmentRepository deptRepo;
+    public DepartmentServiceImpl(@Autowired DepartmentRepository deptRepo) {
+        this.deptRepo = deptRepo;
+    }
 
     @Override
     public Department createDepartment(Department dept) {
@@ -26,8 +29,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department retrieveDepartment(Integer deptId) {
         Optional<Department> dept = deptRepo.findById(deptId);
-        if (dept.isPresent()) return dept.get();
-        else return null;
+        return dept.orElse(null);
     }
 
     @Override

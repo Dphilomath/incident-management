@@ -9,8 +9,13 @@ import java.util.List;
 
 @RestController()
 public class IncidentController {
-    @Autowired
     private IncidentService incidentService;
+
+    //setter dependency injection
+    @Autowired
+    private void setIncidentService(  IncidentService incidentService){
+        this.incidentService = incidentService;
+    }
 
     @GetMapping("/getallincidents")
     List<Incident> getAllIncidents() {
@@ -26,7 +31,7 @@ public class IncidentController {
     }
 
     //Retrieve or get student on the basis of Primary Key
-    //http://localhost:8080/getstudentbyid/1
+    //http://localhost:8080/getincidentbyid/1
     @GetMapping("/getincidentbyid/{id}")
     public Incident retrieveIncident(@PathVariable("id") Integer incidentId)
     {

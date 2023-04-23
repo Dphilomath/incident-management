@@ -1,6 +1,7 @@
 package com.group4.incidentmanagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 import java.util.Set;
@@ -27,11 +30,11 @@ public class Department {
 
 
     //dept is not being saved
-    @JsonBackReference
-    @OneToMany(
-            mappedBy = "department",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+//    @JsonBackReference
+    @OneToMany(mappedBy = "department")
+    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
     private List<User> users;
+
+
 }
