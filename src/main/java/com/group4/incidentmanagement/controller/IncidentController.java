@@ -1,6 +1,8 @@
 package com.group4.incidentmanagement.controller;
 
+import com.group4.incidentmanagement.dao.UpdateRepo;
 import com.group4.incidentmanagement.entities.Incident;
+import com.group4.incidentmanagement.entities.Update;
 import com.group4.incidentmanagement.service.IncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,9 @@ import java.util.List;
 @RestController()
 public class IncidentController {
     private IncidentService incidentService;
+
+    @Autowired
+    private UpdateRepo updateRepo;
 
     //setter dependency injection
     @Autowired
@@ -36,5 +41,10 @@ public class IncidentController {
     public Incident retrieveIncident(@PathVariable("id") Integer incidentId)
     {
         return incidentService.getIncidentById(incidentId);
+    }
+    @PutMapping("/updateincident/{incidentName}")
+    public Incident updateIncident(@PathVariable("incidentName")String incidentName, @RequestBody Update update){
+        System.out.println(update.toString());
+        return incidentService.updateIncident(incidentName, update);
     }
 }

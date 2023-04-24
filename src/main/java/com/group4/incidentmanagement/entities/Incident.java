@@ -6,7 +6,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.IdGeneratorType;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,12 +17,17 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "incident_details")
+@ToString
 public class Incident {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "incident_id")
     private Integer id;
+
+    @NonNull
     private String name;
+
+    @NotNull
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -46,4 +54,7 @@ public class Incident {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "incident")
+    private List<Update> updates;
 }

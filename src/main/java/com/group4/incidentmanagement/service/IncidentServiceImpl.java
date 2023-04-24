@@ -1,9 +1,10 @@
 package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.dao.IncidentRepository;
+import com.group4.incidentmanagement.dao.UpdateRepo;
 import com.group4.incidentmanagement.dao.UserRepository;
 import com.group4.incidentmanagement.entities.Incident;
-import com.group4.incidentmanagement.entities.User;
+import com.group4.incidentmanagement.entities.Update;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class IncidentServiceImpl implements IncidentService {
 
     private UserRepository userRepo;
 
+    @Autowired
+    private UpdateRepo updateRepo;
     //constructor injection
     public IncidentServiceImpl(@Autowired UserRepository userRepo, @Autowired IncidentRepository incidentRepo) {
         this.userRepo = userRepo;
@@ -31,11 +34,11 @@ public class IncidentServiceImpl implements IncidentService {
     @Override
     public Incident saveIncident(@NotNull Incident incident) {
 
-        User foundUser = userRepo.findUserByUserNameAndDepartment(incident.getUser().getUserName(), incident.getUser().getDepartment());
-
-        if (foundUser != null) {
-            incident.setUser(foundUser);
-        }
+//        User foundUser = userRepo.findUserByUserNameAndDepartment(incident.getUser().getUserName(), incident.getUser().getDepartment());
+//
+//        if (foundUser != null) {
+//            incident.setUser(foundUser);
+//        }
         return incidentRepo.save(incident);
     }
 
@@ -44,10 +47,6 @@ public class IncidentServiceImpl implements IncidentService {
         return null;
     }
 
-    @Override
-    public Incident updateIncident(Incident incident) {
-        return incidentRepo.save(incident);
-    }
 
     @Override
     public void deleteIncidentById(Integer incidentId) {
@@ -65,6 +64,17 @@ public class IncidentServiceImpl implements IncidentService {
         return new ArrayList<>(makeCollection(incidents));
     }
 
+    @Override
+    public Incident updateIncident(String incidentName, Update update){
+        Incident toUpdate = incidentRepo.findIncidentByName(incidentName);
+        update.setIncident(toUpdate);
+        List<Update>  updates = toUpdate.getUpdates();
+        updates.add(update);
+        Update curUpdate = updateRepo.save(update);
+        Incident updated = incidentRepo.findIncidentByName(incidentName);
+        return updated;
+
+    }
     public static <E> Collection<E> makeCollection(Iterable<E> iter) {
         Collection<E> list = new ArrayList<>();
         for (E item : iter) {

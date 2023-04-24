@@ -1,6 +1,7 @@
 package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.entities.Incident;
+import com.group4.incidentmanagement.entities.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,9 +12,10 @@ public interface IncidentService {
     //R - Retrieve or find
     public Incident getIncidentDetailsByUserId(Integer userId);
     public Incident getIncidentById(Integer incidentId);
-    //U - Update a record
-    public Incident updateIncident(Incident incident);
+
+    public Incident updateIncident(String incidentName, Update update);
     //D - Delete a record
     public void deleteIncidentById(Integer incidentId);
     public List<Incident> getAllIncidents();
+
 }

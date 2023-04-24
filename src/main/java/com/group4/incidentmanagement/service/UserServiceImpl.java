@@ -1,7 +1,6 @@
 package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.dao.UserRepository;
-import com.group4.incidentmanagement.entities.Department;
 import com.group4.incidentmanagement.entities.User;
 import com.group4.incidentmanagement.service.util.IterableToList;
 import jakarta.transaction.Transactional;

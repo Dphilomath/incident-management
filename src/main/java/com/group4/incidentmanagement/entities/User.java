@@ -27,15 +27,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Incident> incidents;
 
-    @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(
-            name="user_dept",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="dept_id")
-    )
+    private String department;
+
+//    @JsonBackReference
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name="user_dept",
+//            joinColumns = @JoinColumn(name="user_id"),
+//            inverseJoinColumns = @JoinColumn(name="dept_id")
+//    )
 //    @JoinColumn(name = "dept_id")
-    private Department department;
+//    private Department department;
 
 
 }
