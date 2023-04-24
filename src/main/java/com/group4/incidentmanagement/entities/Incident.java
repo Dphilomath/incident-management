@@ -43,5 +43,6 @@ public class Incident {
 
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
     private User user;
 }

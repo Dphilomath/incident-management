@@ -1,15 +1,20 @@
 package com.group4.incidentmanagement.entities;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
+import lombok.ToString.Exclude;
 
 @Entity
 @Getter
@@ -25,8 +30,9 @@ public class Department {
     @JsonBackReference
     @OneToMany(
             mappedBy = "department",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
+    @Exclude
+    //inverse side
     private Set<User> users;
 }

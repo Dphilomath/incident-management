@@ -1,11 +1,14 @@
 package com.group4.incidentmanagement.service;
 
-import com.group4.incidentmanagement.dao.DepartmentRepository;
-import com.group4.incidentmanagement.entities.Department;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.group4.incidentmanagement.dao.DepartmentRepository;
+import com.group4.incidentmanagement.entities.Department;
+
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentRepository deptRepo;

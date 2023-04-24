@@ -24,12 +24,12 @@ public class User {
     private String userName;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Incident> incidents;
 
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn
+    @JoinColumn(name = "deptId")
     private Department department;
 
 }
