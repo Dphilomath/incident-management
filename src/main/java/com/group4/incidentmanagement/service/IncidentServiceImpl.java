@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static com.group4.incidentmanagement.service.util.IterableToList.makeCollection;
+
 @Service
 @Transactional
 public class IncidentServiceImpl implements IncidentService {
@@ -73,13 +75,12 @@ public class IncidentServiceImpl implements IncidentService {
         Update curUpdate = updateRepo.save(update);
         Incident updated = incidentRepo.findIncidentByName(incidentName);
         return updated;
-
     }
-    public static <E> Collection<E> makeCollection(Iterable<E> iter) {
-        Collection<E> list = new ArrayList<>();
-        for (E item : iter) {
-            list.add(item);
-        }
-        return list;
-    }
+//    public static <E> Collection<E> makeCollection(Iterable<E> iter) {
+//        Collection<E> list = new ArrayList<>();
+//        for (E item : iter) {
+//            list.add(item);
+//        }
+//        return list;
+//    }
 }

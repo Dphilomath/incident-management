@@ -55,6 +55,7 @@ public class Incident {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "incident")
     private List<Update> updates;
 }
