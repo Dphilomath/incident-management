@@ -2,6 +2,7 @@ package com.group4.incidentmanagement.controller;
 
 import com.group4.incidentmanagement.entities.Update;
 import com.group4.incidentmanagement.service.UpdateService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +13,16 @@ public class UpdateController {
     @Autowired
     private UpdateService updateService;
 
-    @PostMapping("/addanupdate/{incidentName}")
-    public List<Update> addUpdate(@PathVariable("incidentName") String incidentName, @RequestBody Update update){
-        System.out.println(incidentName);
-        return updateService.saveUpdate(incidentName, update);
+    @PostMapping("/addanupdate/{incidentId}")
+    @Transactional
+    public List<Update> addUpdate(@PathVariable("incidentId") Integer incidentId, @RequestBody Update update) {
+        System.out.println("IncidentID: " + incidentId);
+        return updateService.saveUpdate(incidentId, update);
     }
-    @GetMapping("/getupdates/{incidentName}")
-    public List<Update> getUpdates(@PathVariable("incidentName") String incidentName){
-        return updateService.getAllUpdates(incidentName);
+
+    @GetMapping("/getupdates/{incidentId}")
+    public List<Update> getUpdates(@PathVariable("incidentId") Integer incidentId) throws NoSuchFieldException {
+        System.out.println("incidentId: " + incidentId);
+        return updateService.getAllUpdates(incidentId);
     }
 }

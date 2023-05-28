@@ -1,14 +1,12 @@
 package com.group4.incidentmanagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.IdGeneratorType;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,12 +48,12 @@ public class Incident {
         Rejected
     }
 
-    @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference(value = "user-incident")
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "incident")
-    private List<Update> updates;
+    @JsonManagedReference(value = "incident-update")
+    @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Update> updates = new ArrayList<>();
 }

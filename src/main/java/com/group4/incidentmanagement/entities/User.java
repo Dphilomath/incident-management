@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -23,11 +23,15 @@ public class User {
     private Integer userId;
     private String userName;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-incident")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Incident> incidents;
+    private List<Incident> incidents = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonBackReference(value = "user-dept")
     @ManyToOne
     private Department department;
+
+    @JsonManagedReference(value = "user-update")
+    @OneToMany(mappedBy = "user")
+    private List<Update> updates = new ArrayList<>();
 }

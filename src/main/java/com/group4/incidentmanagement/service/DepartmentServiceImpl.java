@@ -2,8 +2,7 @@ package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.dao.DepartmentRepository;
 import com.group4.incidentmanagement.entities.Department;
-import com.group4.incidentmanagement.entities.Incident;
-import com.group4.incidentmanagement.entities.Update;
+import com.group4.incidentmanagement.exception.NoSuchElementFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,23 +51,14 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Override
     public Department getDeptById(Integer deptId) {
         Optional<Department> dept = deptRepo.findById(deptId);
-        if(dept.isPresent()) return dept.get();
-        else return null;
+        if (dept.isPresent()) return dept.get();
+
+        throw new NoSuchElementFoundException("No dept with deptId: " + deptId + " found");
     }
 
     @Override
     public List<Department> getAllDepts() {
         Iterable<Department> depts = deptRepo.findAll();
         return new ArrayList<>(makeCollection(depts));
-    }
-
-    /**
-     * @param deptName
-     * @param update
-     * @return
-     */
-    @Override
-    public Department updateDept(String deptName, Update update) {
-        return null;
     }
 }
