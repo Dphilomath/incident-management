@@ -25,7 +25,8 @@ public class IncidentController {
 
     @GetMapping("/incidents")
     ResponseEntity<List<Incident>> getAllIncidents() {
-        return (ResponseEntity<List<Incident>>) incidentService.getAllIncidents();
+        List<Incident> incidents = incidentService.getAllIncidents();
+        return new ResponseEntity<>(incidents, HttpStatus.OK);
     }
 
     //Create or save or add
