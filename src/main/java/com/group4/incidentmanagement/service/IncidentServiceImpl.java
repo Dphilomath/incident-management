@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.group4.incidentmanagement.service.util.IterableToList.makeCollection;
@@ -49,9 +50,8 @@ public class IncidentServiceImpl implements IncidentService {
     }
 
     @Override
-    public Incident getIncidentById(Integer incidentId) {
-        Optional<Incident> incident = incidentRepo.findById(incidentId);
-        return incident.orElse(null);
+    public Optional<Incident> getIncidentById(Integer incidentId) {
+        return incidentRepo.findById(incidentId);
     }
 
     @Override
@@ -60,12 +60,19 @@ public class IncidentServiceImpl implements IncidentService {
         return new ArrayList<>(makeCollection(incidents));
     }
 
-}
-//    public static <E> Collection<E> makeCollection(Iterable<E> iter) {
-//        Collection<E> list = new ArrayList<>();
-//        for (E item : iter) {
-//            list.add(item);
-//        }
-//        return list;
-//    }
+    @Override
+    public Incident updateIncident(Integer incidentId, Incident incident) {
+        Optional<Incident> incidentOptional = incidentRepo.findById(incidentId);
+        if (incidentOptional.isPresent()) {
+            Incident updatedIncident = incidentOptional.get();
+            updatedIncident.setName(incident.getName());
+            updatedIncident.setPriority(incident.getPriority());
+            updatedIncident.setStatus(incident.getStatus());
+            updatedIncident.setCategory(incident.getCategory());
+            return incidentRepo.save(incident);
+        } else {
+            throw new NoSuchElementException("Incident not found");
+        }
+    }
 
+}

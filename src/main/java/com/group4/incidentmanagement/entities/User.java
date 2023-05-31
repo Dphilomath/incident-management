@@ -3,6 +3,7 @@ package com.group4.incidentmanagement.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
+    @NotNull
     private String userName;
+
 
     @JsonManagedReference(value = "user-incident")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,4 +37,9 @@ public class User {
     @JsonManagedReference(value = "user-update")
     @OneToMany(mappedBy = "user")
     private List<Update> updates = new ArrayList<>();
+
+    public User(String userName, Department dept) {
+        this.userName = userName;
+        this.department = dept;
+    }
 }
