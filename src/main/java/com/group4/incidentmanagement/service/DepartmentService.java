@@ -1,6 +1,7 @@
 package com.group4.incidentmanagement.service;
 
 import com.group4.incidentmanagement.entities.Department;
+import com.group4.incidentmanagement.entities.User;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface DepartmentService {
 
     public List<Department> getAllDepts();
 
+    Department updateDept(Department savedDept);
+
+    List<User> getUsersByDepartmentId(Integer deptId);
 }

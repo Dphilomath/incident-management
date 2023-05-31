@@ -3,8 +3,8 @@ package com.group4.incidentmanagement.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,36 +22,37 @@ public class Incident {
     @Column(name = "incident_id")
     private Integer id;
 
-    @NonNull
+    @NotNull
     private String name;
 
     @NotNull
     private String description;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    private Priority priority;
+    private Enums.Priority priority;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Enums.Status status;
 
-    private enum Priority{
-        Critical,
-        High,
-        Medium,
-        Low
-    }
-
-    private enum Status {
-        New,
-        In_Progress,
-        Resolved,
-        Rejected
-    }
-
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Enums.Category category;
+    @NotNull
     @JsonBackReference(value = "user-incident")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
+
+
+    public Incident(String name, Enums.Priority priority, Enums.Status status, Enums.Category category, User user) {
+        this.name = name;
+        this.priority = priority;
+        this.category = category;
+        this.status = status;
+        this.user = user;
+    }
 
     @JsonManagedReference(value = "incident-update")
     @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

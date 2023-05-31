@@ -13,14 +13,14 @@ public class UpdateController {
     @Autowired
     private UpdateService updateService;
 
-    @PostMapping("/addanupdate/{incidentId}")
+    @PostMapping("/update/add/{incidentId}")
     @Transactional
     public List<Update> addUpdate(@PathVariable("incidentId") Integer incidentId, @RequestBody Update update) {
         System.out.println("IncidentID: " + incidentId);
         return updateService.saveUpdate(incidentId, update);
     }
 
-    @GetMapping("/getupdates/{incidentId}")
+    @GetMapping("/updates/{incidentId}")
     public List<Update> getUpdates(@PathVariable("incidentId") Integer incidentId) throws NoSuchFieldException {
         System.out.println("incidentId: " + incidentId);
         return updateService.getAllUpdates(incidentId);

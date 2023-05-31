@@ -2,11 +2,14 @@ package com.group4.incidentmanagement.controller;
 
 import com.group4.incidentmanagement.dao.DepartmentRepository;
 import com.group4.incidentmanagement.entities.Department;
-import com.group4.incidentmanagement.exception.NoSuchElementFoundException;
+import com.group4.incidentmanagement.entities.User;
 import com.group4.incidentmanagement.service.DepartmentService;
+import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,41 +22,55 @@ public class DepartmentController {
     @Autowired
     private DepartmentRepository deptRepo;
 
-    @GetMapping("/alldepts")
-    List<Department> getAllDepts() {
+    @GetMapping("/depts")
+    List<Department> getAllDepartments() {
         return deptService.getAllDepts();
     }
 
-
     //Create or save or add
     @PostMapping("/dept/add")
-    public Department createDept(@RequestBody Department dept) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Department createDepartment(@Valid @RequestBody Department dept, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String errorMessage = "Validation failed";
+            throw new ValidationException(errorMessage);
+        }
         return deptService.createDept(dept);
+
     }
 
     //Retrieve or get student on the basis of Primary Key
     @GetMapping("/dept/{id}")
-    public Department retrieveDept(@PathVariable("id") Integer deptId) {
-        return deptService.getDeptById(deptId);
+    public ResponseEntity<Department> retrieveDept(@PathVariable("id") Integer deptId) {
+        Department dept = deptService.getDeptById(deptId);
+        if (dept != null) return ResponseEntity.ok(dept);
+        else return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/dept/update/{id}")
-    public Department updateDept(@PathVariable("id") Integer deptId, @RequestBody Department dept) {
-        return deptService.updateDeptById(deptId, dept);
+    public ResponseEntity<Department> updateDept(@PathVariable("id") Integer deptId, @RequestBody Department dept) {
+        try {
+            Department savedDept = deptService.getDeptById(deptId);
+            savedDept.setDeptName(dept.getDeptName());
+
+            Department updatedDept = deptService.updateDept(savedDept);
+            return new ResponseEntity<>(updatedDept, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @DeleteMapping("/dept/delete/{deptId}")
-    public void deleteDept(@PathVariable("deptId") Integer deptId) {
+    public ResponseEntity<String> deleteDept(@PathVariable("deptId") Integer deptId) {
         deptService.deleteDeptById(deptId);
+        return new ResponseEntity<String>("Department deleted successfully!.", HttpStatus.OK);
+
     }
 
-    @ExceptionHandler(NoSuchElementFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handleNoSuchElementFoundException(
-            NoSuchElementFoundException exception
-    ) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(exception.getMessage());
+    @GetMapping("/dept/users/{deptId}")
+    public ResponseEntity<List<User>> getUsersByDeptId(@PathVariable("deptId") Integer deptId) {
+        List<User> users = deptService.getUsersByDepartmentId(deptId);
+        return ResponseEntity.ok(users);
     }
 }
